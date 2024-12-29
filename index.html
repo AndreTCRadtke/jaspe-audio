@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaspe Audio</title>
+</head>
+<body>
+    <audio id="jaspe-sound" src="jaspe.wav" preload="auto"></audio>
+    <script>
+      // Configura o intervalo exato
+      setInterval(() => {
+        const jaspeSound = document.getElementById("jaspe-sound");
+        jaspeSound.currentTime = 0; // Reinicia o som
+        jaspeSound.play(); // Reproduz o som
+      }, 1318.359375); // Intervalo em milissegundos
+    </script>
+</body>
+</html>
