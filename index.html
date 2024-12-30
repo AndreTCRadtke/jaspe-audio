@@ -8,48 +8,12 @@
 <body>
     <audio id="jaspe-sound" src="jaspe.wav" preload="auto"></audio>
     <script>
-      // Função para calcular a meia-noite local do usuário
-      function calcularMeiaNoiteLocal() {
-        const agora = new Date();
-        const meiaNoiteLocal = new Date(agora);
-        
-        // Define meia-noite como o próximo momento de 00:00:00 do horário local
-        meiaNoiteLocal.setHours(24, 0, 0, 0);
-        
-        // Retorna a hora da meia-noite local
-        return meiaNoiteLocal;
-      }
-
-      // Função para tocar o som
-      function tocarSom() {
+      // Configura o intervalo exato
+      setInterval(() => {
         const jaspeSound = document.getElementById("jaspe-sound");
         jaspeSound.currentTime = 0; // Reinicia o som
         jaspeSound.play(); // Reproduz o som
-      }
-
-      // Função para iniciar a reprodução, sincronizando com a meia-noite local
-      function iniciarRelogio() {
-        const agora = new Date();
-        const meiaNoiteLocal = calcularMeiaNoiteLocal();
-
-        // Calcular o tempo até a próxima meia-noite local (em milissegundos)
-        const tempoAteMeiaNoite = meiaNoiteLocal - agora;
-
-        // Ajusta o tempo para o primeiro toque, sincronizado com a meia-noite local
-        const primeiroToqueAtraso = 1318.359375 - (tempoAteMeiaNoite % 1318.359375); 
-
-        // Espera até o momento correto para o primeiro toque
-        setTimeout(() => {
-          // Inicia a reprodução do som
-          tocarSom();
-          
-          // Configura a reprodução a cada 1,318359375 segundos (intervalo exato)
-          setInterval(tocarSom, 1318.359375); // Intervalo em milissegundos
-        }, primeiroToqueAtraso);
-      }
-
-      // Chama a função para iniciar o relógio
-      iniciarRelogio();
+      }, 1318.359375); // Intervalo em milissegundos
     </script>
 </body>
 </html>
