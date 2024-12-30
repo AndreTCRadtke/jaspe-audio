@@ -8,12 +8,51 @@
 <body>
     <audio id="jaspe-sound" src="jaspe.wav" preload="auto"></audio>
     <script>
-      // Configura o intervalo exato
-      setInterval(() => {
+      // Função para calcular a última meia-noite local
+      function calcularUltimaMeiaNoite() {
+        const agora = new Date();
+        const ultimaMeiaNoite = new Date(agora);
+        
+        // Define a última meia-noite como o momento de 00:00:00 do dia atual
+        ultimaMeiaNoite.setHours(0, 0, 0, 0);
+
+        return ultimaMeiaNoite;
+      }
+
+      // Função para tocar o som
+      function tocarSom() {
         const jaspeSound = document.getElementById("jaspe-sound");
         jaspeSound.currentTime = 0; // Reinicia o som
         jaspeSound.play(); // Reproduz o som
-      }, 1318.359375); // Intervalo em milissegundos
+      }
+
+      // Função para calcular o tempo até o próximo toque
+      function calcularTempoAteProximoToque() {
+        const agora = new Date();
+        const ultimaMeiaNoite = calcularUltimaMeiaNoite();
+        const tempoDesdeUltimaMeiaNoite = agora - ultimaMeiaNoite; // Tempo em milissegundos desde a última meia-noite
+
+        // Calcula o tempo até o próximo toque, ajustando para o intervalo exato
+        const tempoAjustado = tempoDesdeUltimaMeiaNoite % 1318.359375; // Ajusta o tempo para que o toque siga o ritmo exato
+
+        return 1318.359375 - tempoAjustado; // Retorna o tempo até o próximo toque no intervalo exato
+      }
+
+      // Inicia o relógio e a reprodução do som
+      function iniciarRelogio() {
+        const tempoAteProximoToque = calcularTempoAteProximoToque();
+
+        // Espera até o tempo ajustado para iniciar a reprodução e sincronizar o ritmo
+        setTimeout(() => {
+          tocarSom(); // Primeiro toque imediato após o cálculo
+
+          // Reproduz o som no intervalo exato de 1,318359375 segundos
+          setInterval(tocarSom, 1318.359375); // Intervalo exato para a repetição
+        }, tempoAteProximoToque);
+      }
+
+      // Chama a função para iniciar a reprodução
+      iniciarRelogio();
     </script>
 </body>
 </html>
