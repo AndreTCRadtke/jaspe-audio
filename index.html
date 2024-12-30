@@ -8,16 +8,16 @@
 <body>
     <audio id="jaspe-sound" src="jaspe.wav" preload="auto"></audio>
     <script>
-      // Função para calcular o tempo até meia-noite
-      function calcularHoraInicio() {
+      // Função para calcular a meia-noite local do usuário
+      function calcularMeiaNoiteLocal() {
         const agora = new Date();
-        const meiaNoite = new Date(agora);
+        const meiaNoiteLocal = new Date(agora);
         
-        // Define meia-noite como o próximo momento de 00:00:00
-        meiaNoite.setHours(24, 0, 0, 0);
+        // Define meia-noite como o próximo momento de 00:00:00 do horário local
+        meiaNoiteLocal.setHours(24, 0, 0, 0);
         
-        // Tempo restante até meia-noite em milissegundos
-        return meiaNoite - agora;
+        // Retorna a hora da meia-noite local
+        return meiaNoiteLocal;
       }
 
       // Função para tocar o som
@@ -27,19 +27,25 @@
         jaspeSound.play(); // Reproduz o som
       }
 
-      // Configura o intervalo exato de 1,318359375 segundos
+      // Função para iniciar a reprodução, sincronizando com a meia-noite local
       function iniciarRelogio() {
-        // Calcular o tempo até meia-noite
-        const tempoInicio = calcularHoraInicio();
-        
-        // Espera até meia-noite para começar a reprodução
+        const agora = new Date();
+        const meiaNoiteLocal = calcularMeiaNoiteLocal();
+
+        // Calcular o tempo até a próxima meia-noite local (em milissegundos)
+        const tempoAteMeiaNoite = meiaNoiteLocal - agora;
+
+        // Ajusta o tempo para o primeiro toque, sincronizado com a meia-noite local
+        const primeiroToqueAtraso = 1318.359375 - (tempoAteMeiaNoite % 1318.359375); 
+
+        // Espera até o momento correto para o primeiro toque
         setTimeout(() => {
           // Inicia a reprodução do som
           tocarSom();
           
-          // Configura a reprodução a cada 1,318359375 segundos
+          // Configura a reprodução a cada 1,318359375 segundos (intervalo exato)
           setInterval(tocarSom, 1318.359375); // Intervalo em milissegundos
-        }, tempoInicio);
+        }, primeiroToqueAtraso);
       }
 
       // Chama a função para iniciar o relógio
