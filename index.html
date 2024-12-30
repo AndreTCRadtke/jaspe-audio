@@ -8,15 +8,15 @@
 <body>
     <audio id="jaspe-sound" src="jaspe.wav" preload="auto"></audio>
     <script>
-      // Função para calcular a última meia-noite local
-      function calcularUltimaMeiaNoite() {
+      // Função para calcular a última meia-noite UTC
+      function calcularUltimaMeiaNoiteUTC() {
         const agora = new Date();
-        const ultimaMeiaNoite = new Date(agora);
+        const ultimaMeiaNoiteUTC = new Date(agora);
         
-        // Define a última meia-noite como o momento de 00:00:00 do dia atual
-        ultimaMeiaNoite.setHours(0, 0, 0, 0);
+        // Define a última meia-noite UTC como o momento de 00:00:00 UTC do dia atual
+        ultimaMeiaNoiteUTC.setUTCHours(0, 0, 0, 0);
 
-        return ultimaMeiaNoite;
+        return ultimaMeiaNoiteUTC;
       }
 
       // Função para tocar o som
@@ -26,14 +26,14 @@
         jaspeSound.play(); // Reproduz o som
       }
 
-      // Função para calcular o tempo até o próximo toque
+      // Função para calcular o tempo até o próximo toque (com base no UTC)
       function calcularTempoAteProximoToque() {
         const agora = new Date();
-        const ultimaMeiaNoite = calcularUltimaMeiaNoite();
-        const tempoDesdeUltimaMeiaNoite = agora - ultimaMeiaNoite; // Tempo em milissegundos desde a última meia-noite
+        const ultimaMeiaNoiteUTC = calcularUltimaMeiaNoiteUTC();
+        const tempoDesdeUltimaMeiaNoiteUTC = agora - ultimaMeiaNoiteUTC; // Tempo em milissegundos desde a última meia-noite UTC
 
         // Calcula o tempo até o próximo toque, ajustando para o intervalo exato
-        const tempoAjustado = tempoDesdeUltimaMeiaNoite % 1318.359375; // Ajusta o tempo para que o toque siga o ritmo exato
+        const tempoAjustado = tempoDesdeUltimaMeiaNoiteUTC % 1318.359375; // Ajusta o tempo para que o toque siga o ritmo exato
 
         return 1318.359375 - tempoAjustado; // Retorna o tempo até o próximo toque no intervalo exato
       }
