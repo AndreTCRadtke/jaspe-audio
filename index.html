@@ -8,12 +8,42 @@
 <body>
     <audio id="jaspe-sound" src="jaspe.wav" preload="auto"></audio>
     <script>
-      // Configura o intervalo exato
-      setInterval(() => {
+      // Função para calcular o tempo até meia-noite
+      function calcularHoraInicio() {
+        const agora = new Date();
+        const meiaNoite = new Date(agora);
+        
+        // Define meia-noite como o próximo momento de 00:00:00
+        meiaNoite.setHours(24, 0, 0, 0);
+        
+        // Tempo restante até meia-noite em milissegundos
+        return meiaNoite - agora;
+      }
+
+      // Função para tocar o som
+      function tocarSom() {
         const jaspeSound = document.getElementById("jaspe-sound");
         jaspeSound.currentTime = 0; // Reinicia o som
         jaspeSound.play(); // Reproduz o som
-      }, 1318.359375); // Intervalo em milissegundos
+      }
+
+      // Configura o intervalo exato de 1,318359375 segundos
+      function iniciarRelogio() {
+        // Calcular o tempo até meia-noite
+        const tempoInicio = calcularHoraInicio();
+        
+        // Espera até meia-noite para começar a reprodução
+        setTimeout(() => {
+          // Inicia a reprodução do som
+          tocarSom();
+          
+          // Configura a reprodução a cada 1,318359375 segundos
+          setInterval(tocarSom, 1318.359375); // Intervalo em milissegundos
+        }, tempoInicio);
+      }
+
+      // Chama a função para iniciar o relógio
+      iniciarRelogio();
     </script>
 </body>
 </html>
