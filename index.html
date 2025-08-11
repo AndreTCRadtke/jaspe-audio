@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaspe Audio</title>
+    <title>Jaspe Audio - Relógio Sideral</title>
 </head>
 <body>
     <audio id="jaspe-sound" src="jaspe.wav" preload="auto"></audio>
@@ -15,42 +15,37 @@
         
         // Define a última meia-noite UTC como o momento de 00:00:00 UTC do dia atual
         ultimaMeiaNoiteUTC.setUTCHours(0, 0, 0, 0);
-
         return ultimaMeiaNoiteUTC;
       }
-
+      
       // Função para tocar o som
       function tocarSom() {
         const jaspeSound = document.getElementById("jaspe-sound");
         jaspeSound.currentTime = 0; // Reinicia o som
         jaspeSound.play(); // Reproduz o som
       }
-
+      
       // Função para calcular o tempo até o próximo toque (com base no UTC)
       function calcularTempoAteProximoToque() {
         const agora = new Date();
         const ultimaMeiaNoiteUTC = calcularUltimaMeiaNoiteUTC();
         const tempoDesdeUltimaMeiaNoiteUTC = agora - ultimaMeiaNoiteUTC; // Tempo em milissegundos desde a última meia-noite UTC
-
-        // Calcula o tempo até o próximo toque, ajustando para o intervalo exato
-        const tempoAjustado = tempoDesdeUltimaMeiaNoiteUTC % 1318.359375; // Ajusta o tempo para que o toque siga o ritmo exato
-
-        return 1318.359375 - tempoAjustado; // Retorna o tempo até o próximo toque no intervalo exato
+        // Calcula o tempo até o próximo toque, ajustando para o intervalo sideral exato
+        const tempoAjustado = tempoDesdeUltimaMeiaNoiteUTC % 1314.75968170166015625; // Ajusta o tempo para que o toque siga o ritmo sideral exato
+        return 1314.75968170166015625 - tempoAjustado; // Retorna o tempo até o próximo toque no intervalo sideral exato
       }
-
+      
       // Inicia o relógio e a reprodução do som
       function iniciarRelogio() {
         const tempoAteProximoToque = calcularTempoAteProximoToque();
-
         // Espera até o tempo ajustado para iniciar a reprodução e sincronizar o ritmo
         setTimeout(() => {
           tocarSom(); // Primeiro toque imediato após o cálculo
-
-          // Reproduz o som no intervalo exato de 1,318359375 segundos
-          setInterval(tocarSom, 1318.359375); // Intervalo exato para a repetição
+          // Reproduz o som no intervalo sideral exato de 1,31475968170166015625 segundos
+          setInterval(tocarSom, 1314.75968170166015625); // Intervalo sideral exato para a repetição
         }, tempoAteProximoToque);
       }
-
+      
       // Chama a função para iniciar a reprodução
       iniciarRelogio();
     </script>
